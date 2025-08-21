@@ -65,7 +65,7 @@ ams/
 │   ├── package.json
 │   └── .gitignore
 ├── README.md                   # このファイル
-└── attendance_requirements.md  # 要件定義書
+└── requirements.md  # 要件定義書
 ```
 
 ## ✨ 主要機能
