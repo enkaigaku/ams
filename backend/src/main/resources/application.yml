@@ -1,0 +1,171 @@
+spring:
+  application:
+    name: ams-backend
+  
+  profiles:
+    active: development
+  
+  # Allow circular references as a temporary solution
+  main:
+    allow-circular-references: true
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ams_db
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 20
+          order_inserts: true
+          order_updates: true
+  
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+  
+  security:
+    oauth2:
+      client:
+        registration: {}
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# Application Configuration
+app:
+  jwt:
+    secret: ${JWT_SECRET:MyVeryLongAndSecureJWTSecretKeyForAMSApplication2024!}
+    access-token-expiration: 86400000 # 24 hours
+    refresh-token-expiration: 604800000 # 7 days
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+    allowed-headers: "*"
+    allow-credentials: true
+
+# Management Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+  info:
+    env:
+      enabled: true
+
+# Logging Configuration  
+logging:
+  level:
+    com.ams: INFO
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# SpringDoc OpenAPI configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    try-it-out-enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+    display-request-duration: true
+    default-models-expand-depth: 1
+    default-model-expand-depth: 1
+  show-actuator: false
+  group-configs:
+    - group: 'authentication'
+      display-name: '認証API'
+      paths-to-match: '/auth/**'
+    - group: 'time-tracking'
+      display-name: '打刻API'
+      paths-to-match: '/time/**'
+    - group: 'requests'
+      display-name: '申請API'
+      paths-to-match: '/requests/**'
+    - group: 'manager'
+      display-name: '管理者API'
+      paths-to-match: '/manager/**'
+    - group: 'users'
+      display-name: 'ユーザー管理API'
+      paths-to-match: '/users/**'
+    - group: 'export'
+      display-name: 'エクスポートAPI'
+      paths-to-match: '/export/**'
+
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: development
+  
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  
+  h2:
+    console:
+      enabled: false
+
+logging:
+  level:
+    com.ams: DEBUG
+    org.springframework.security: DEBUG
+
+---
+# Production Profile
+spring:
+  config:
+    activate:
+      on-profile: production
+  
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+
+logging:
+  level:
+    com.ams: WARN
+    org.springframework.security: WARN
+  file:
+    name: logs/ams-backend.log
