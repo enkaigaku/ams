@@ -4,13 +4,13 @@
 
 ## 技術スタック
 
-- **React 18** - UIライブラリ
+- **React 19** - UIライブラリ
 - **TypeScript** - 型安全な開発
-- **Vite** - 高速ビルドツール
-- **React Router v6** - ルーティング
+- **Vite 7** - 高速ビルドツール
+- **React Router v7** - ルーティング
 - **TanStack Query** - サーバー状態管理
 - **Zustand** - クライアント状態管理
-- **Tailwind CSS** - スタイリング
+- **Tailwind CSS 4** - スタイリング
 - **React Hook Form** - フォーム管理
 - **Zod** - バリデーション
 - **Axios** - HTTP クライアント
@@ -46,7 +46,7 @@ frontend/
 
 ### 必要な環境
 
-- Node.js 18.0.0 以上
+- Node.js 20.0.0 以上
 - npm または yarn
 
 ### インストール

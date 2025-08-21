@@ -2,7 +2,7 @@
 
 ![Java](https://img.shields.io/badge/Java-17+-blue.svg)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2+-green.svg)
-![React](https://img.shields.io/badge/React-18+-blue.svg)
+![React](https://img.shields.io/badge/React-19+-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue.svg)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)
 
@@ -17,7 +17,7 @@
 ```
 ┌─────────────────────┐    ┌──────────────────────┐
 │   Frontend (React)  │    │  Backend (Spring)    │
-│  - React 18 + TS    │◄──►│  - Spring Boot 3     │
+│  - React 19 + TS    │◄──►│  - Spring Boot 3     │
 │  - Tailwind CSS     │    │  - JWT Security      │
 │  - Zustand          │    │  - PostgreSQL        │
 └─────────────────────┘    └──────────────────────┘
@@ -30,9 +30,9 @@
 | **Backend** | Java 17+, Spring Boot 3.2+, Spring Security 6, Spring Data JPA |
 | **Database** | PostgreSQL 15+, Flyway Migrations |
 | **Authentication** | JWT (Access + Refresh Token) |
-| **Frontend** | React 18, TypeScript 5, Tailwind CSS 3 |
+| **Frontend** | React 19, TypeScript 5, Tailwind CSS 4 |
 | **State Management** | Zustand, TanStack Query |
-| **Build Tools** | Gradle 8.x (Backend), Vite 5.x (Frontend) |
+| **Build Tools** | Gradle 8.x (Backend), Vite 7.x (Frontend) |
 | **Documentation** | OpenAPI 3.0 / Swagger UI |
 
 ## 🚀 プロジェクト構成
@@ -98,7 +98,7 @@ ams/
 
 ### 前提条件
 - Java 17+
-- Node.js 18+
+- Node.js 20+
 - PostgreSQL 15+
 - Gradle 8.x
 
