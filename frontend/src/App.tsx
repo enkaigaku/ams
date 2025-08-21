@@ -48,7 +48,7 @@ const App: React.FC = () => {
         <Route
           path="/employee/*"
           element={
-            <AuthGuard requiredRole="employee">
+            <AuthGuard requiredRole="EMPLOYEE">
               <AppLayout>
                 <Routes>
                   <Route index element={<EmployeeDashboard />} />
@@ -65,7 +65,7 @@ const App: React.FC = () => {
         <Route
           path="/manager/*"
           element={
-            <AuthGuard requiredRole="manager">
+            <AuthGuard requiredRole="MANAGER">
               <AppLayout>
                 <Routes>
                   <Route index element={<ManagerDashboard />} />
@@ -82,7 +82,7 @@ const App: React.FC = () => {
         <Route
           path="/"
           element={
-            user.role === 'manager' 
+            user.role === 'MANAGER' 
               ? <Navigate to="/manager" replace />
               : <Navigate to="/employee" replace />
           }
@@ -92,7 +92,7 @@ const App: React.FC = () => {
         <Route
           path="*"
           element={
-            user.role === 'manager' 
+            user.role === 'MANAGER' 
               ? <Navigate to="/manager" replace />
               : <Navigate to="/employee" replace />
           }

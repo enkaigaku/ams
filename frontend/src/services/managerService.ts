@@ -2,6 +2,18 @@ import { apiService } from './api';
 import type { TimeRecord, User, AlertItem, MonthlyReport, ApiResponse } from '../types';
 
 export const managerService = {
+  async getDashboard(): Promise<ApiResponse<{
+    teamSize: number;
+    todayPresent: number;
+    todayLate: number;
+    todayAbsent: number;
+    unreadAlerts: number;
+    pendingApprovals: number;
+    teamMembers: User[];
+  }>> {
+    return apiService.get('/manager/dashboard');
+  },
+
   async getTeamMembers(): Promise<ApiResponse<User[]>> {
     return apiService.get('/manager/team');
   },
@@ -39,7 +51,7 @@ export const managerService = {
     endDate: string, 
     format: 'csv' | 'excel' = 'csv'
   ): Promise<ApiResponse<{ downloadUrl: string }>> {
-    return apiService.post('/manager/export', {
+    return apiService.post('/api/export/attendance', {
       startDate,
       endDate,
       format,
@@ -66,5 +78,30 @@ export const managerService = {
     averageHours: number;
   }>> {
     return apiService.get(`/manager/stats?start=${startDate}&end=${endDate}`);
+  },
+
+  // Request approval endpoints
+  async getPendingLeaveRequests(): Promise<ApiResponse<any[]>> {
+    return apiService.get('/api/requests/leave?status=pending');
+  },
+
+  async getPendingTimeModificationRequests(): Promise<ApiResponse<any[]>> {
+    return apiService.get('/api/requests/time-modification?status=pending');
+  },
+
+  async approveLeaveRequest(requestId: string, comment?: string): Promise<ApiResponse<any>> {
+    return apiService.patch(`/api/requests/leave/${requestId}`, { status: 'approved', comment });
+  },
+
+  async rejectLeaveRequest(requestId: string, comment: string): Promise<ApiResponse<any>> {
+    return apiService.patch(`/api/requests/leave/${requestId}`, { status: 'rejected', comment });
+  },
+
+  async approveTimeModificationRequest(requestId: string, comment?: string): Promise<ApiResponse<any>> {
+    return apiService.patch(`/api/requests/time-modification/${requestId}`, { status: 'approved', comment });
+  },
+
+  async rejectTimeModificationRequest(requestId: string, comment: string): Promise<ApiResponse<any>> {
+    return apiService.patch(`/api/requests/time-modification/${requestId}`, { status: 'rejected', comment });
   },
 };

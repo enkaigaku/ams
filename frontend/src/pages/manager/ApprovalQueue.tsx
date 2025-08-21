@@ -39,8 +39,8 @@ const ApprovalQueue: React.FC = () => {
     setLoading(true);
     try {
       const [leaveResponse, timeResponse, teamResponse] = await Promise.all([
-        requestService.getLeaveRequests('pending'),
-        requestService.getTimeModificationRequests('pending'),
+        requestService.getLeaveRequests('PENDING'),
+        requestService.getTimeModificationRequests('PENDING'),
         managerService.getTeamMembers(),
       ]);
 
@@ -68,9 +68,9 @@ const ApprovalQueue: React.FC = () => {
   const handleApproval = async (
     type: 'leave' | 'time',
     requestId: string,
-    status: 'approved' | 'rejected'
+    status: 'APPROVED' | 'REJECTED'
   ) => {
-    const confirmMessage = status === 'approved' 
+    const confirmMessage = status === 'APPROVED' 
       ? '申請を承認しますか？' 
       : '申請を却下しますか？';
     
@@ -229,7 +229,7 @@ const ApprovalQueue: React.FC = () => {
                       <Button
                         size="sm"
                         variant="primary"
-                        onClick={() => handleApproval('leave', request.id, 'approved')}
+                        onClick={() => handleApproval('leave', request.id, 'APPROVED')}
                         disabled={processing}
                       >
                         <CheckIcon className="h-4 w-4" />
@@ -237,7 +237,7 @@ const ApprovalQueue: React.FC = () => {
                       <Button
                         size="sm"
                         variant="danger"
-                        onClick={() => handleApproval('leave', request.id, 'rejected')}
+                        onClick={() => handleApproval('leave', request.id, 'REJECTED')}
                         disabled={processing}
                       >
                         <XMarkIcon className="h-4 w-4" />
@@ -334,7 +334,7 @@ const ApprovalQueue: React.FC = () => {
                       <Button
                         size="sm"
                         variant="primary"
-                        onClick={() => handleApproval('time', request.id, 'approved')}
+                        onClick={() => handleApproval('time', request.id, 'APPROVED')}
                         disabled={processing}
                       >
                         <CheckIcon className="h-4 w-4" />
@@ -342,7 +342,7 @@ const ApprovalQueue: React.FC = () => {
                       <Button
                         size="sm"
                         variant="danger"
-                        onClick={() => handleApproval('time', request.id, 'rejected')}
+                        onClick={() => handleApproval('time', request.id, 'REJECTED')}
                         disabled={processing}
                       >
                         <XMarkIcon className="h-4 w-4" />
@@ -442,7 +442,7 @@ const ApprovalQueue: React.FC = () => {
                 onClick={() => handleApproval(
                   'type' in selectedRequest ? 'leave' : 'time',
                   selectedRequest.id,
-                  'rejected'
+                  'REJECTED'
                 )}
                 loading={processing}
                 disabled={processing}
@@ -455,7 +455,7 @@ const ApprovalQueue: React.FC = () => {
                 onClick={() => handleApproval(
                   'type' in selectedRequest ? 'leave' : 'time',
                   selectedRequest.id,
-                  'approved'
+                  'APPROVED'
                 )}
                 loading={processing}
                 disabled={processing}

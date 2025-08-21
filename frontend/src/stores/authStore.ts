@@ -3,9 +3,10 @@ import { persist } from 'zustand/middleware';
 import type { User, AuthState } from '../types';
 
 interface AuthStore extends AuthState {
-  login: (user: User, token: string) => void;
+  login: (user: User, accessToken: string, refreshToken?: string) => void;
   logout: () => void;
   updateUser: (user: Partial<User>) => void;
+  updateTokens: (accessToken: string, refreshToken?: string) => void;
   isManager: () => boolean;
 }
 
@@ -16,12 +17,16 @@ export const useAuthStore = create<AuthStore>()(
       token: null,
       isAuthenticated: false,
 
-      login: (user: User, token: string) => {
+      login: (user: User, accessToken: string, refreshToken?: string) => {
         set({
           user,
-          token,
+          token: accessToken,
           isAuthenticated: true,
         });
+        // Store refreshToken in localStorage separately if provided
+        if (refreshToken) {
+          localStorage.setItem('refresh-token', refreshToken);
+        }
       },
 
       logout: () => {
@@ -31,6 +36,14 @@ export const useAuthStore = create<AuthStore>()(
           isAuthenticated: false,
         });
         localStorage.removeItem('auth-storage');
+        localStorage.removeItem('refresh-token');
+      },
+
+      updateTokens: (accessToken: string, refreshToken?: string) => {
+        set({ token: accessToken });
+        if (refreshToken) {
+          localStorage.setItem('refresh-token', refreshToken);
+        }
       },
 
       updateUser: (userData: Partial<User>) => {
@@ -44,7 +57,7 @@ export const useAuthStore = create<AuthStore>()(
 
       isManager: () => {
         const user = get().user;
-        return user?.role === 'manager';
+        return user?.role === 'MANAGER';
       },
     }),
     {

@@ -7,8 +7,14 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string;
   user: User;
-  token: string;
+}
+
+export interface RefreshTokenRequest {
+  refreshToken: string;
 }
 
 export const authService = {
@@ -20,15 +26,15 @@ export const authService = {
     return apiService.post('/auth/logout');
   },
 
-  async refreshToken(): Promise<ApiResponse<{ token: string }>> {
-    return apiService.post('/auth/refresh');
+  async refreshToken(refreshToken: string): Promise<ApiResponse<LoginResponse>> {
+    return apiService.post('/auth/refresh', { refreshToken });
   },
 
   async getProfile(): Promise<ApiResponse<User>> {
-    return apiService.get('/auth/profile');
+    return apiService.get('/users/profile');
   },
 
   async updateProfile(data: Partial<User>): Promise<ApiResponse<User>> {
-    return apiService.put('/auth/profile', data);
+    return apiService.put('/users/profile', data);
   },
 };

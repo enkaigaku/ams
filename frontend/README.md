@@ -65,7 +65,7 @@ cp .env.example .env.local
 
 ```env
 # API サーバーのURL
-VITE_API_URL=http://localhost:3001/api
+VITE_API_URL=http://localhost:8080/api
 
 # 環境設定
 VITE_NODE_ENV=development

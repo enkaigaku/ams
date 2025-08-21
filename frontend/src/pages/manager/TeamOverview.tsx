@@ -186,7 +186,7 @@ const TeamOverview: React.FC = () => {
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-green-600">
-              {attendanceData.filter(r => r.status === 'present').length}
+              {attendanceData.filter(r => r.status === 'PRESENT').length}
             </div>
             <div className="text-sm text-gray-600">出勤者数</div>
           </CardContent>
@@ -195,7 +195,7 @@ const TeamOverview: React.FC = () => {
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-yellow-600">
-              {attendanceData.filter(r => r.status === 'late').length}
+              {attendanceData.filter(r => r.status === 'LATE').length}
             </div>
             <div className="text-sm text-gray-600">遅刻者数</div>
           </CardContent>

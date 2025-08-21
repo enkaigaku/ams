@@ -1,7 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 
 class ApiService {
   private api: AxiosInstance;
@@ -32,11 +32,38 @@ class ApiService {
 
     this.api.interceptors.response.use(
       (response) => response,
-      (error) => {
-        if (error.response?.status === 401) {
+      async (error) => {
+        const originalRequest = error.config;
+        
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+          
+          try {
+            // Try to refresh the token
+            const refreshToken = localStorage.getItem('refresh-token');
+            if (refreshToken) {
+              const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
+                refreshToken
+              });
+              
+              if (response.data.success) {
+                const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+                useAuthStore.getState().updateTokens(accessToken, newRefreshToken);
+                
+                // Retry the original request with new token
+                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                return this.api(originalRequest);
+              }
+            }
+          } catch (refreshError) {
+            console.error('Token refresh failed:', refreshError);
+          }
+          
+          // If refresh fails, logout user
           useAuthStore.getState().logout();
           window.location.href = '/login';
         }
+        
         return Promise.reject(error);
       }
     );

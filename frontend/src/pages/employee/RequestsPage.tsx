@@ -23,7 +23,7 @@ import { requestService } from '../../services/requestService';
 import type { LeaveRequest, TimeModificationRequest } from '../../types';
 
 const leaveRequestSchema = z.object({
-  type: z.enum(['paid_leave', 'sick_leave', 'personal_leave']),
+  type: z.enum(['ANNUAL', 'SICK', 'PERSONAL', 'SPECIAL', 'MATERNITY', 'PATERNITY', 'PAID']),
   startDate: z.string().min(1, '開始日を選択してください'),
   endDate: z.string().min(1, '終了日を選択してください'),
   reason: z.string().min(1, '理由を入力してください'),
@@ -234,7 +234,7 @@ const RequestsPage: React.FC = () => {
                       </div>
                       
                       <div className="flex items-center space-x-2">
-                        {request.status === 'pending' && (
+                        {request.status === 'PENDING' && (
                           <Button
                             variant="danger"
                             size="sm"
@@ -297,7 +297,7 @@ const RequestsPage: React.FC = () => {
                       </div>
                       
                       <div className="flex items-center space-x-2">
-                        {request.status === 'pending' && (
+                        {request.status === 'PENDING' && (
                           <Button
                             variant="danger"
                             size="sm"

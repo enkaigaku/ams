@@ -5,7 +5,7 @@ import { LoadingSpinner } from '../ui';
 
 interface AuthGuardProps {
   children: React.ReactNode;
-  requiredRole?: 'employee' | 'manager';
+  requiredRole?: 'EMPLOYEE' | 'MANAGER';
   fallbackPath?: string;
 }
 
@@ -40,7 +40,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({
   // Check role-based access
   if (requiredRole && user.role !== requiredRole) {
     // Redirect managers to manager dashboard, employees to employee dashboard
-    const redirectPath = user.role === 'manager' ? '/manager' : '/employee';
+    const redirectPath = user.role === 'MANAGER' ? '/manager' : '/employee';
     return <Navigate to={redirectPath} replace />;
   }
 

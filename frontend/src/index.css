@@ -1,9 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
+@theme {
+  --font-family-sans: "Inter", system-ui, sans-serif;
 }

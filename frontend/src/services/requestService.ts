@@ -2,7 +2,7 @@ import { apiService } from './api';
 import type { LeaveRequest, TimeModificationRequest, ApiResponse } from '../types';
 
 export interface CreateLeaveRequestData {
-  type: 'paid_leave' | 'sick_leave' | 'personal_leave';
+  type: 'ANNUAL' | 'SICK' | 'PERSONAL' | 'SPECIAL' | 'MATERNITY' | 'PATERNITY' | 'PAID';
   startDate: string;
   endDate: string;
   reason: string;
@@ -27,7 +27,7 @@ export const requestService = {
 
   async updateLeaveRequestStatus(
     requestId: string, 
-    status: 'approved' | 'rejected',
+    status: 'APPROVED' | 'REJECTED',
     comment?: string
   ): Promise<ApiResponse<LeaveRequest>> {
     return apiService.patch(`/requests/leave/${requestId}`, { status, comment });
@@ -44,7 +44,7 @@ export const requestService = {
 
   async updateTimeModificationStatus(
     requestId: string, 
-    status: 'approved' | 'rejected',
+    status: 'APPROVED' | 'REJECTED',
     comment?: string
   ): Promise<ApiResponse<TimeModificationRequest>> {
     return apiService.patch(`/requests/time-modification/${requestId}`, { status, comment });

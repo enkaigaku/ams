@@ -2,9 +2,13 @@ export interface User {
   id: string;
   employeeId: string;
   name: string;
-  department: string;
-  role: 'employee' | 'manager';
   email?: string;
+  role: 'EMPLOYEE' | 'MANAGER';
+  isActive: boolean;
+  department: string;
+  departmentId?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface TimeRecord {
@@ -16,21 +20,22 @@ export interface TimeRecord {
   breakStart?: string;
   breakEnd?: string;
   totalHours?: number;
-  status: 'present' | 'absent' | 'late' | 'early_leave';
+  status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EARLY_LEAVE';
   notes?: string;
 }
 
 export interface LeaveRequest {
   id: string;
   userId: string;
-  type: 'paid_leave' | 'sick_leave' | 'personal_leave';
+  type: 'ANNUAL' | 'SICK' | 'PERSONAL' | 'SPECIAL' | 'MATERNITY' | 'PATERNITY' | 'PAID';
   startDate: string;
   endDate: string;
   reason: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
   approvedBy?: string;
   approvedAt?: string;
   createdAt: string;
+  comment?: string;
 }
 
 export interface TimeModificationRequest {
@@ -42,10 +47,11 @@ export interface TimeModificationRequest {
   requestedClockIn?: string;
   requestedClockOut?: string;
   reason: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
   approvedBy?: string;
   approvedAt?: string;
   createdAt: string;
+  comment?: string;
 }
 
 export interface Department {

@@ -173,9 +173,9 @@ const AttendanceHistory: React.FC = () => {
                         {record && (
                           <div className="mt-1 flex justify-center">
                             <div className={`w-2 h-2 rounded-full ${
-                              record.status === 'present' ? 'bg-green-500' :
-                              record.status === 'late' ? 'bg-yellow-500' :
-                              record.status === 'absent' ? 'bg-red-500' :
+                              record.status === 'PRESENT' ? 'bg-green-500' :
+                              record.status === 'LATE' ? 'bg-yellow-500' :
+                              record.status === 'ABSENT' ? 'bg-red-500' :
                               'bg-gray-300'
                             }`} />
                           </div>
@@ -286,19 +286,19 @@ const AttendanceHistory: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div>
               <p className="text-2xl font-bold text-primary-600">
-                {records.filter(r => r.status === 'present').length}
+                {records.filter(r => r.status === 'PRESENT').length}
               </p>
               <p className="text-sm text-gray-600">出勤日数</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-yellow-600">
-                {records.filter(r => r.status === 'late').length}
+                {records.filter(r => r.status === 'LATE').length}
               </p>
               <p className="text-sm text-gray-600">遅刻回数</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-red-600">
-                {records.filter(r => r.status === 'absent').length}
+                {records.filter(r => r.status === 'ABSENT').length}
               </p>
               <p className="text-sm text-gray-600">欠勤日数</p>
             </div>

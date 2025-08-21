@@ -38,10 +38,10 @@ const LoginPage: React.FC = () => {
       const response = await authService.login(data);
       
       if (response.success && response.data) {
-        login(response.data.user, response.data.token);
+        login(response.data.user, response.data.accessToken, response.data.refreshToken);
         
         // Navigate based on user role
-        if (response.data.user.role === 'manager') {
+        if (response.data.user.role === 'MANAGER') {
           navigate('/manager');
         } else {
           navigate('/employee');
