@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { 
-  UsersIcon, 
-  ClockIcon, 
-  ExclamationTriangleIcon,
-  DocumentTextIcon,
-  ChartBarIcon,
-  CheckCircleIcon,
-  XCircleIcon
-} from '@heroicons/react/24/outline';
+  Users, 
+  UserCheck, 
+  Clock3,
+  UserX,
+  AlertTriangle,
+  FileText,
+  BarChart3,
+  CheckCircle,
+  XCircle,
+  Clock,
+  Calendar
+} from 'lucide-react';
 
 import { 
   Card, 
@@ -133,248 +137,213 @@ const ManagerDashboard: React.FC = () => {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-white mb-2">
-          管理者ダッシュボード
-        </h1>
-        <p className="text-gray-300">
-          {user?.name}さん | {format(new Date(), 'yyyy年M月d日（E）', { locale: ja })}
-        </p>
-      </div>
+    <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+      {/* Header Section */}
+      <section className="mb-8 animate-fade-in">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/20">
+            <BarChart3 className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">管理者ダッシュボード</h1>
+            <p className="text-muted-foreground">
+              {user?.name}さん | {format(new Date(), 'yyyy年M月d日（E）', { locale: ja })}
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <UsersIcon className="h-8 w-8 text-primary-600" />
-            </div>
-            <div className="text-2xl font-bold text-white">{stats.totalEmployees}</div>
-            <div className="text-sm text-gray-400">総従業員数</div>
-          </CardContent>
-        </Card>
+      {/* Quick Stats - 4 Column Grid */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 flex items-center gap-4 hover:shadow-lg transition-all duration-300 animate-fade-in-up">
+          <Users className="h-10 w-10 text-chart-1" />
+          <div>
+            <p className="text-sm text-muted-foreground">総従業員数</p>
+            <p className="text-3xl font-bold text-foreground">{stats.totalEmployees}</p>
+          </div>
+        </div>
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 flex items-center gap-4 hover:shadow-lg transition-all duration-300 animate-fade-in-up">
+          <UserCheck className="h-10 w-10 text-chart-2" />
+          <div>
+            <p className="text-sm text-muted-foreground">本日出勤</p>
+            <p className="text-3xl font-bold text-foreground">{stats.presentToday}</p>
+          </div>
+        </div>
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 flex items-center gap-4 hover:shadow-lg transition-all duration-300 animate-fade-in-up">
+          <Clock3 className="h-10 w-10 text-chart-4" />
+          <div>
+            <p className="text-sm text-muted-foreground">遅刻者数</p>
+            <p className="text-3xl font-bold text-foreground">{stats.lateToday}</p>
+          </div>
+        </div>
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 flex items-center gap-4 hover:shadow-lg transition-all duration-300 animate-fade-in-up">
+          <UserX className="h-10 w-10 text-destructive" />
+          <div>
+            <p className="text-sm text-muted-foreground">欠勤者数</p>
+            <p className="text-3xl font-bold text-foreground">{stats.absentToday}</p>
+          </div>
+        </div>
+      </section>
 
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <CheckCircleIcon className="h-8 w-8 text-green-600" />
-            </div>
-            <div className="text-2xl font-bold text-white">{stats.presentToday}</div>
-            <div className="text-sm text-gray-400">本日出勤</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <ExclamationTriangleIcon className="h-8 w-8 text-yellow-600" />
-            </div>
-            <div className="text-2xl font-bold text-white">{stats.lateToday}</div>
-            <div className="text-sm text-gray-400">遅刻者数</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <XCircleIcon className="h-8 w-8 text-red-600" />
-            </div>
-            <div className="text-2xl font-bold text-white">{stats.absentToday}</div>
-            <div className="text-sm text-gray-400">欠勤者数</div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Today's Attendance */}
-        <Card>
-          <CardHeader>
-            <h3 className="text-lg font-medium flex items-center">
-              <ClockIcon className="h-5 w-5 mr-2" />
-              本日の出勤状況
-            </h3>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 max-h-64 overflow-y-auto">
-              {todayAttendance.length === 0 ? (
-                <p className="text-center text-gray-500 py-4">出勤記録がありません</p>
-              ) : (
-                todayAttendance.map((record) => {
-                  const member = teamMembers.find(m => m.id === record.userId);
-                  const status = getAttendanceStatus(record);
-                  
-                  return (
-                    <div key={record.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-900">{member?.name || 'Unknown'}</p>
-                        <p className="text-sm text-gray-600">
-                          {record.clockIn ? format(new Date(record.clockIn), 'HH:mm') : '--:--'} - 
-                          {record.clockOut ? format(new Date(record.clockOut), 'HH:mm') : '--:--'}
-                        </p>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Badge variant={status.color} size="sm">
-                          {status.text}
-                        </Badge>
-                        <span className="text-sm font-medium text-gray-700">
-                          {calculateWorkingHours(record)}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Alerts */}
-        <Card>
-          <CardHeader>
-            <h3 className="text-lg font-medium flex items-center">
-              <ExclamationTriangleIcon className="h-5 w-5 mr-2" />
-              アラート ({alerts.filter(a => !a.isRead).length}件未読)
-            </h3>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 max-h-64 overflow-y-auto">
-              {alerts.length === 0 ? (
-                <p className="text-center text-gray-500 py-4">アラートはありません</p>
-              ) : (
-                alerts.map((alert) => (
-                  <div 
-                    key={alert.id} 
-                    className={`p-3 rounded-lg border ${
-                      alert.isRead ? 'bg-gray-50 border-gray-200' : 'bg-yellow-50 border-yellow-200'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-900">{alert.message}</p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {format(new Date(alert.createdAt), 'MM/dd HH:mm')}
-                        </p>
-                      </div>
-                      {!alert.isRead && (
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full ml-2 mt-1"></div>
-                      )}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Pending Approvals */}
-      <Card>
-        <CardHeader>
-          <h3 className="text-lg font-medium flex items-center">
-            <DocumentTextIcon className="h-5 w-5 mr-2" />
-            承認待ち申請 ({pendingLeaveRequests.length + pendingTimeRequests.length}件)
+      {/* Calendar and Pending Actions */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div className="lg:col-span-2 bg-card border border-border rounded-xl shadow-md p-6 animate-fade-in-up">
+          <h3 className="text-lg font-semibold mb-4 flex items-center text-foreground">
+            <Calendar className="h-5 w-5 mr-2 text-primary" />
+            チーム勤怠カレンダー
           </h3>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Leave Requests */}
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">休暇申請 ({pendingLeaveRequests.length}件)</h4>
-              <div className="space-y-2">
-                {pendingLeaveRequests.slice(0, 5).map((request) => {
-                  const member = teamMembers.find(m => m.id === request.userId);
-                  return (
-                    <div key={request.id} className="p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <p className="font-medium text-sm">{member?.name || 'Unknown'}</p>
-                          <p className="text-xs text-gray-600">
-                            {format(new Date(request.startDate), 'MM/dd')} - {format(new Date(request.endDate), 'MM/dd')}
-                          </p>
-                        </div>
-                        <Badge variant="warning" size="sm">
-                          {request.type === 'paid_leave' ? '有給' : 
-                           request.type === 'sick_leave' ? '病欠' : '私用'}
-                        </Badge>
-                      </div>
-                    </div>
-                  );
-                })}
-                {pendingLeaveRequests.length === 0 && (
-                  <p className="text-sm text-gray-500 text-center py-2">承認待ちの休暇申請はありません</p>
-                )}
+          <div className="text-center py-16 text-muted-foreground">
+            <p>[フルインタラクティブチームカレンダーがここに表示されます]</p>
+          </div>
+        </div>
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 animate-fade-in-up">
+          <h3 className="text-lg font-semibold mb-4 text-foreground">承認待ちアクション</h3>
+          <div className="space-y-4">
+            <div className="p-3 rounded-md flex justify-between items-center border border-border hover:bg-accent transition-colors">
+              <div>
+                <p className="font-medium text-foreground">田中 一郎 - 休暇申請</p>
+                <p className="text-sm text-muted-foreground">病気休暇</p>
+              </div>
+              <div className="flex gap-2">
+                <button className="bg-primary text-primary-foreground px-3 py-1 text-sm rounded-md hover:bg-primary/90 transition-colors">承認</button>
+                <button className="bg-secondary text-secondary-foreground px-3 py-1 text-sm rounded-md border border-border hover:bg-accent transition-colors">却下</button>
               </div>
             </div>
-
-            {/* Time Modification Requests */}
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">打刻修正申請 ({pendingTimeRequests.length}件)</h4>
-              <div className="space-y-2">
-                {pendingTimeRequests.slice(0, 5).map((request) => {
-                  const member = teamMembers.find(m => m.id === request.userId);
-                  return (
-                    <div key={request.id} className="p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <p className="font-medium text-sm">{member?.name || 'Unknown'}</p>
-                          <p className="text-xs text-gray-600">
-                            {format(new Date(request.date), 'MM/dd')}
-                          </p>
-                        </div>
-                        <Badge variant="info" size="sm">打刻修正</Badge>
-                      </div>
-                    </div>
-                  );
-                })}
-                {pendingTimeRequests.length === 0 && (
-                  <p className="text-sm text-gray-500 text-center py-2">承認待ちの打刻修正申請はありません</p>
-                )}
+            <div className="p-3 rounded-md flex justify-between items-center border border-border hover:bg-accent transition-colors">
+              <div>
+                <p className="font-medium text-foreground">佐藤 花子 - 勤怠修正</p>
+                <p className="text-sm text-muted-foreground">打刻忘れ</p>
+              </div>
+              <button className="bg-secondary text-secondary-foreground px-3 py-1 text-sm rounded-md border border-border hover:bg-accent transition-colors">確認</button>
+            </div>
+            <div className="p-3 rounded-md flex justify-between items-center border border-border hover:bg-accent transition-colors">
+              <div>
+                <p className="font-medium text-foreground">鈴木 太郎 - 休暇申請</p>
+                <p className="text-sm text-muted-foreground">夏季休暇</p>
+              </div>
+              <div className="flex gap-2">
+                <button className="bg-primary text-primary-foreground px-3 py-1 text-sm rounded-md hover:bg-primary/90 transition-colors">承認</button>
+                <button className="bg-secondary text-secondary-foreground px-3 py-1 text-sm rounded-md border border-border hover:bg-accent transition-colors">却下</button>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {(pendingLeaveRequests.length > 0 || pendingTimeRequests.length > 0) && (
-            <div className="flex justify-center mt-4">
-              <Button onClick={() => window.location.href = '/manager/approvals'}>
-                すべての申請を確認
-              </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Team Attendance Overview */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 animate-fade-in-up">
+          <h3 className="text-lg font-semibold mb-4 flex items-center text-foreground">
+            <Users className="h-5 w-5 mr-2 text-primary" />
+            本日の出勤状況
+          </h3>
+          <div className="space-y-3">
+            {todayAttendance.slice(0, 5).map((record) => {
+              const member = teamMembers.find(m => m.id === record.userId);
+              const status = getAttendanceStatus(record);
+              return (
+                <div key={record.id} className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                      <UserCheck className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">{member?.name || 'Unknown'}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {record.clockIn ? format(new Date(record.clockIn), 'HH:mm') : '未出勤'} - 
+                        {record.clockOut ? format(new Date(record.clockOut), 'HH:mm') : '勤務中'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={status.color} className="text-xs">
+                      {status.text}
+                    </Badge>
+                    <span className="text-sm font-medium text-foreground">
+                      {calculateWorkingHours(record)}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+            {todayAttendance.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">本日の出勤記録がありません</p>
+              </div>
+            )}
+          </div>
+        </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Button
-          size="lg"
-          className="h-16"
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 animate-fade-in-up">
+          <h3 className="text-lg font-semibold mb-4 flex items-center text-foreground">
+            <AlertTriangle className="h-5 w-5 mr-2 text-chart-4" />
+            重要な通知 ({alerts.length}件)
+          </h3>
+          <div className="space-y-3">
+            {alerts.slice(0, 5).map((alert, index) => (
+              <div key={index} className="flex items-start gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors">
+                <div className="w-2 h-2 bg-chart-4 rounded-full mt-2 flex-shrink-0"></div>
+                <div className="flex-1">
+                  <p className="font-medium text-foreground text-sm">{alert.title}</p>
+                  <p className="text-sm text-muted-foreground">{alert.message}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {format(new Date(alert.createdAt), 'MM/dd HH:mm')}
+                  </p>
+                </div>
+              </div>
+            ))}
+            {alerts.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">新しい通知はありません</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Action Cards */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <button
           onClick={() => window.location.href = '/manager/team'}
+          className="bg-card border border-border rounded-xl shadow-md p-6 flex flex-col items-center gap-4 hover:shadow-lg hover:bg-accent transition-all duration-300 animate-fade-in-up group"
         >
-          <UsersIcon className="h-6 w-6 mr-2" />
-          チーム状況
-        </Button>
-        
-        <Button
-          size="lg"
-          variant="secondary"
-          className="h-16"
+          <div className="w-16 h-16 bg-chart-2/10 rounded-full flex items-center justify-center group-hover:bg-chart-2/20 transition-colors">
+            <Users className="h-8 w-8 text-chart-2" />
+          </div>
+          <div className="text-center">
+            <h4 className="font-semibold text-foreground">チーム管理</h4>
+            <p className="text-sm text-muted-foreground">メンバーの勤怠状況を確認</p>
+          </div>
+        </button>
+
+        <button
           onClick={() => window.location.href = '/manager/approvals'}
+          className="bg-card border border-border rounded-xl shadow-md p-6 flex flex-col items-center gap-4 hover:shadow-lg hover:bg-accent transition-all duration-300 animate-fade-in-up group"
         >
-          <DocumentTextIcon className="h-6 w-6 mr-2" />
-          承認管理
-        </Button>
-        
-        <Button
-          size="lg"
-          variant="secondary"
-          className="h-16"
+          <div className="w-16 h-16 bg-chart-4/10 rounded-full flex items-center justify-center group-hover:bg-chart-4/20 transition-colors">
+            <FileText className="h-8 w-8 text-chart-4" />
+          </div>
+          <div className="text-center">
+            <h4 className="font-semibold text-foreground">承認管理</h4>
+            <p className="text-sm text-muted-foreground">
+              {pendingLeaveRequests.length + pendingTimeRequests.length}件の申請待ち
+            </p>
+          </div>
+        </button>
+
+        <button
           onClick={() => window.location.href = '/manager/reports'}
+          className="bg-card border border-border rounded-xl shadow-md p-6 flex flex-col items-center gap-4 hover:shadow-lg hover:bg-accent transition-all duration-300 animate-fade-in-up group"
         >
-          <ChartBarIcon className="h-6 w-6 mr-2" />
-          レポート
-        </Button>
-      </div>
+          <div className="w-16 h-16 bg-chart-1/10 rounded-full flex items-center justify-center group-hover:bg-chart-1/20 transition-colors">
+            <BarChart3 className="h-8 w-8 text-chart-1" />
+          </div>
+          <div className="text-center">
+            <h4 className="font-semibold text-foreground">レポート</h4>
+            <p className="text-sm text-muted-foreground">勤怠データの分析と出力</p>
+          </div>
+        </button>
+      </section>
     </div>
   );
 };

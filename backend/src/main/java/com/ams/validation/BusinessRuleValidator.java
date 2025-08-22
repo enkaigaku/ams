@@ -174,43 +174,41 @@ public class BusinessRuleValidator {
         long daysUntilLeave = ChronoUnit.DAYS.between(today, startDate);
         
         switch (leaveType) {
-            case ANNUAL:
-            case SPECIAL:
+            case ANNUAL, SPECIAL -> {
                 if (daysUntilLeave < 2) {
                     throw new BusinessRuleViolationException("年次休暇・特別休暇は2日前までに申請してください");
                 }
-                break;
-            case SICK:
-                // Sick leave can be applied for current day in emergencies
-                break;
-            case MATERNITY:
-            case PATERNITY:
+            }
+            case SICK -> {
+            }
+            case MATERNITY, PATERNITY -> {
                 if (daysUntilLeave < 14) {
                     throw new BusinessRuleViolationException("産休・育休は14日前までに申請してください");
                 }
-                break;
+            }
         }
+        // Sick leave can be applied for current day in emergencies
     }
 
     private void validateMaxConsecutiveDays(LeaveType leaveType, LocalDate startDate, LocalDate endDate) {
         long days = ChronoUnit.DAYS.between(startDate, endDate) + 1;
         
         switch (leaveType) {
-            case ANNUAL:
+            case ANNUAL -> {
                 if (days > 10) {
                     throw new BusinessRuleViolationException("年次休暇は連続10日以内で申請してください");
                 }
-                break;
-            case SICK:
+            }
+            case SICK -> {
                 if (days > 7) {
                     throw new BusinessRuleViolationException("病気休暇は連続7日以内で申請してください");
                 }
-                break;
-            case SPECIAL:
+            }
+            case SPECIAL -> {
                 if (days > 5) {
                     throw new BusinessRuleViolationException("特別休暇は連続5日以内で申請してください");
                 }
-                break;
+            }
         }
     }
 

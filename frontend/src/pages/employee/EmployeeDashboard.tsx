@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { 
-  ClockIcon, 
-  PlayIcon, 
-  StopIcon, 
-  PauseIcon,
-  CheckCircleIcon 
-} from '@heroicons/react/24/outline';
+  Clock, 
+  Play, 
+  Square, 
+  Pause,
+  CheckCircle,
+  CalendarCheck,
+  Clock3,
+  CalendarOff
+} from 'lucide-react';
 
 import { 
   Button, 
@@ -131,128 +134,158 @@ const EmployeeDashboard: React.FC = () => {
   const statusDisplay = getStatusDisplay();
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-white mb-2">
-          おかえりなさい、{user?.name}さん
-        </h1>
-        <p className="text-lg text-gray-300">
-          {format(currentTime, 'yyyy年M月d日 HH:mm:ss', { locale: ja })}
+    <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+      {/* Welcome Section */}
+      <section className="mb-8 animate-fade-in">
+        <h2 className="text-3xl font-bold text-foreground mb-2">おかえりなさい、{user?.name}さん</h2>
+        <p className="text-muted-foreground">
+          {format(currentTime, 'yyyy年M月d日', { locale: ja })} の勤怠状況です
         </p>
-      </div>
+      </section>
 
-      {/* Status Card */}
-      <Card>
-        <CardContent className="text-center py-8">
-          <div className="mb-4">
-            <Badge variant={statusDisplay.color} size="md" className="text-lg px-4 py-2">
+      {/* Real-time Clock */}
+      <section className="mb-8">
+        <div className="bg-card border border-border rounded-2xl shadow-md p-8 text-center animate-fade-in-up">
+          <div className="text-4xl font-bold text-foreground mb-2 font-mono">
+            {format(currentTime, 'HH:mm:ss')}
+          </div>
+          <div className="flex items-center justify-center mb-4">
+            <Badge variant={statusDisplay.color} className="text-sm px-3 py-1">
               {statusDisplay.text}
             </Badge>
           </div>
-          
           {todayRecord?.clockIn && (
-            <div className="space-y-2 text-sm text-gray-300">
-              <p>出勤時刻: {format(new Date(todayRecord.clockIn), 'HH:mm')}</p>
-              {todayRecord.clockOut && (
-                <p>退勤時刻: {format(new Date(todayRecord.clockOut), 'HH:mm')}</p>
-              )}
-              <p>勤務時間: {calculateWorkingHours()}</p>
+            <div className="text-sm text-muted-foreground space-y-1">
+              <p>勤務時間: <span className="font-semibold text-foreground">{calculateWorkingHours()}</span></p>
+              <p>出勤: {format(new Date(todayRecord.clockIn), 'HH:mm')}</p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </section>
+
+      {/* Stats Cards */}
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 flex items-center gap-4 hover:shadow-lg transition-all duration-300 animate-fade-in-up">
+          <CalendarCheck className="h-10 w-10 text-chart-2" />
+          <div>
+            <p className="text-sm text-muted-foreground">今月出勤日数</p>
+            <p className="text-2xl font-bold text-foreground">22</p>
+          </div>
+        </div>
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 flex items-center gap-4 hover:shadow-lg transition-all duration-300 animate-fade-in-up">
+          <Clock3 className="h-10 w-10 text-chart-4" />
+          <div>
+            <p className="text-sm text-muted-foreground">遅刻回数</p>
+            <p className="text-2xl font-bold text-foreground">1</p>
+          </div>
+        </div>
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 flex items-center gap-4 hover:shadow-lg transition-all duration-300 animate-fade-in-up">
+          <CalendarOff className="h-10 w-10 text-chart-5" />
+          <div>
+            <p className="text-sm text-muted-foreground">有給取得</p>
+            <p className="text-2xl font-bold text-foreground">3</p>
+          </div>
+        </div>
+      </section>
 
       {/* Action Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Button
-          size="lg"
-          className="h-20 text-lg"
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <button
           onClick={() => handleClockAction('clock_in')}
           disabled={!canClockIn() || isClockingIn}
-          loading={isClockingIn}
+          className="bg-chart-2 hover:bg-chart-2/90 disabled:opacity-50 text-white font-semibold py-6 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 text-lg transform hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 disabled:transform-none animate-fade-in-up"
         >
-          <PlayIcon className="h-6 w-6 mr-2" />
+          <Play className="h-6 w-6" />
           出勤
-        </Button>
+        </button>
 
-        <Button
-          size="lg"
-          variant="danger"
-          className="h-20 text-lg"
+        <button
           onClick={() => handleClockAction('clock_out')}
           disabled={!canClockOut() || isClockingIn}
-          loading={isClockingIn}
+          className="bg-destructive hover:bg-destructive/90 disabled:opacity-50 text-destructive-foreground font-semibold py-6 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 text-lg transform hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 disabled:transform-none animate-fade-in-up"
         >
-          <StopIcon className="h-6 w-6 mr-2" />
+          <Square className="h-6 w-6" />
           退勤
-        </Button>
+        </button>
 
-        <Button
-          size="lg"
-          variant="secondary"
-          className="h-20 text-lg"
+        <button
           onClick={() => handleClockAction('break_start')}
           disabled={!canStartBreak() || isClockingIn}
-          loading={isClockingIn}
+          className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold py-6 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 text-lg border border-border transform hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 disabled:transform-none animate-fade-in-up"
         >
-          <PauseIcon className="h-6 w-6 mr-2" />
+          <Pause className="h-6 w-6" />
           休憩開始
-        </Button>
+        </button>
 
-        <Button
-          size="lg"
-          variant="secondary"
-          className="h-20 text-lg"
+        <button
           onClick={() => handleClockAction('break_end')}
           disabled={!canEndBreak() || isClockingIn}
-          loading={isClockingIn}
+          className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold py-6 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 text-lg border border-border transform hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 disabled:transform-none animate-fade-in-up"
         >
-          <CheckCircleIcon className="h-6 w-6 mr-2" />
+          <CheckCircle className="h-6 w-6" />
           休憩終了
-        </Button>
-      </div>
+        </button>
+      </section>
 
-      {/* Today's Summary */}
-      <Card>
-        <CardHeader>
-          <h3 className="text-lg font-medium flex items-center text-white">
-            <ClockIcon className="h-5 w-5 mr-2" />
-            本日の勤怠
+      {/* Today's Record Details */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 animate-fade-in-up">
+          <h3 className="text-lg font-semibold mb-4 flex items-center text-foreground">
+            <Clock className="h-5 w-5 mr-2 text-primary" />
+            本日の勤怠詳細
           </h3>
-        </CardHeader>
-        <CardContent>
           {todayRecord ? (
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-gray-400">出勤時刻</p>
-                <p className="font-medium text-white">
+                <p className="text-sm text-muted-foreground mb-1">出勤時刻</p>
+                <p className="font-semibold text-foreground">
                   {todayRecord.clockIn ? format(new Date(todayRecord.clockIn), 'HH:mm') : '未打刻'}
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">退勤時刻</p>
-                <p className="font-medium text-white">
+                <p className="text-sm text-muted-foreground mb-1">退勤時刻</p>
+                <p className="font-semibold text-foreground">
                   {todayRecord.clockOut ? format(new Date(todayRecord.clockOut), 'HH:mm') : '未打刻'}
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">休憩開始</p>
-                <p className="font-medium text-white">
+                <p className="text-sm text-muted-foreground mb-1">休憩開始</p>
+                <p className="font-semibold text-foreground">
                   {todayRecord.breakStart ? format(new Date(todayRecord.breakStart), 'HH:mm') : '未取得'}
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">休憩終了</p>
-                <p className="font-medium text-white">
+                <p className="text-sm text-muted-foreground mb-1">休憩終了</p>
+                <p className="font-semibold text-foreground">
                   {todayRecord.breakEnd ? format(new Date(todayRecord.breakEnd), 'HH:mm') : '未取得'}
                 </p>
               </div>
             </div>
           ) : (
-            <p className="text-center text-gray-400">本日の勤怠記録がありません</p>
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">本日の勤怠記録がありません</p>
+            </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 animate-fade-in-up">
+          <h3 className="text-lg font-semibold mb-4 text-foreground">最近の申請</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center py-2 border-b border-border">
+              <span className="text-sm text-foreground">年次有給休暇 (2024/08/15)</span>
+              <Badge className="bg-chart-2/10 text-chart-2 border-chart-2/20">承認済み</Badge>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b border-border">
+              <span className="text-sm text-foreground">勤怠修正 (2024/08/12)</span>
+              <Badge className="bg-chart-2/10 text-chart-2 border-chart-2/20">承認済み</Badge>
+            </div>
+            <div className="flex justify-between items-center py-2">
+              <span className="text-sm text-foreground">夏季休暇 (2024/08/20-22)</span>
+              <Badge className="bg-chart-4/10 text-chart-4 border-chart-4/20">待機中</Badge>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

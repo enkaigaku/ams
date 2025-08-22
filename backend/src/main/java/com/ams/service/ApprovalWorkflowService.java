@@ -1,17 +1,17 @@
 package com.ams.service;
 
-import com.ams.entity.LeaveRequest;
-import com.ams.entity.TimeModificationRequest;
-import com.ams.entity.enums.RequestStatus;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import com.ams.entity.LeaveRequest;
+import com.ams.entity.TimeModificationRequest;
 
 @Service
 @Transactional
@@ -31,14 +31,9 @@ public class ApprovalWorkflowService {
     // Unified approval methods
     public void approveRequest(String requestType, UUID requestId, String approverEmployeeId) {
         switch (requestType.toLowerCase()) {
-            case "leave":
-                leaveRequestService.approveLeaveRequest(requestId, approverEmployeeId);
-                break;
-            case "time_modification":
-                timeModificationRequestService.approveTimeModificationRequest(requestId, approverEmployeeId);
-                break;
-            default:
-                throw new IllegalArgumentException("不明な申請タイプです: " + requestType);
+            case "leave" -> leaveRequestService.approveLeaveRequest(requestId, approverEmployeeId);
+            case "time_modification" -> timeModificationRequestService.approveTimeModificationRequest(requestId, approverEmployeeId);
+            default -> throw new IllegalArgumentException("不明な申請タイプです: " + requestType);
         }
         
         logger.info("Approved {} request {} by {}", requestType, requestId, approverEmployeeId);
@@ -46,14 +41,9 @@ public class ApprovalWorkflowService {
 
     public void rejectRequest(String requestType, UUID requestId, String approverEmployeeId, String rejectionReason) {
         switch (requestType.toLowerCase()) {
-            case "leave":
-                leaveRequestService.rejectLeaveRequest(requestId, approverEmployeeId, rejectionReason);
-                break;
-            case "time_modification":
-                timeModificationRequestService.rejectTimeModificationRequest(requestId, approverEmployeeId, rejectionReason);
-                break;
-            default:
-                throw new IllegalArgumentException("不明な申請タイプです: " + requestType);
+            case "leave" -> leaveRequestService.rejectLeaveRequest(requestId, approverEmployeeId, rejectionReason);
+            case "time_modification" -> timeModificationRequestService.rejectTimeModificationRequest(requestId, approverEmployeeId, rejectionReason);
+            default -> throw new IllegalArgumentException("不明な申請タイプです: " + requestType);
         }
         
         logger.info("Rejected {} request {} by {} with reason: {}", requestType, requestId, approverEmployeeId, rejectionReason);
@@ -184,9 +174,9 @@ public class ApprovalWorkflowService {
     }
 
     public static class ApprovalStatistics {
-        private long pendingLeaveRequests;
-        private long pendingTimeModificationRequests;
-        private long totalPendingRequests;
+        private final long pendingLeaveRequests;
+        private final long pendingTimeModificationRequests;
+        private final long totalPendingRequests;
 
         public ApprovalStatistics(long pendingLeaveRequests, long pendingTimeModificationRequests) {
             this.pendingLeaveRequests = pendingLeaveRequests;

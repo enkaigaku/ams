@@ -5,6 +5,7 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   padding?: 'none' | 'sm' | 'md' | 'lg';
+  hover?: boolean;
 }
 
 interface CardHeaderProps {
@@ -25,7 +26,8 @@ interface CardFooterProps {
 export const Card: React.FC<CardProps> = ({ 
   children, 
   className, 
-  padding = 'md' 
+  padding = 'md',
+  hover = true
 }) => {
   const paddingStyles = {
     none: '',
@@ -36,7 +38,8 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <div className={cn(
-      'bg-gray-800 rounded-lg border border-gray-700 shadow-sm',
+      'bg-card border border-border rounded-xl shadow-md transition-all duration-300 animate-fade-in-up',
+      hover && 'hover:shadow-lg',
       paddingStyles[padding],
       className
     )}>
@@ -47,7 +50,7 @@ export const Card: React.FC<CardProps> = ({
 
 export const CardHeader: React.FC<CardHeaderProps> = ({ children, className }) => {
   return (
-    <div className={cn('mb-4', className)}>
+    <div className={cn('mb-4 pb-2', className)}>
       {children}
     </div>
   );
@@ -55,7 +58,7 @@ export const CardHeader: React.FC<CardHeaderProps> = ({ children, className }) =
 
 export const CardContent: React.FC<CardContentProps> = ({ children, className }) => {
   return (
-    <div className={cn(className)}>
+    <div className={cn('text-card-foreground', className)}>
       {children}
     </div>
   );
@@ -63,7 +66,7 @@ export const CardContent: React.FC<CardContentProps> = ({ children, className })
 
 export const CardFooter: React.FC<CardFooterProps> = ({ children, className }) => {
   return (
-    <div className={cn('mt-4 pt-4 border-t border-gray-700', className)}>
+    <div className={cn('mt-4 pt-4 border-t border-border', className)}>
       {children}
     </div>
   );

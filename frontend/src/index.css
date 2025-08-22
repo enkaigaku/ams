@@ -1,5 +1,119 @@
 @import "tailwindcss";
 
 @theme {
+  /* Typography */
   --font-family-sans: "Inter", system-ui, sans-serif;
+  --font-family-serif: "Merriweather", serif;
+  --font-family-mono: "Roboto Mono", monospace;
+
+  /* Custom Color Palette from Reference Designs */
+  --color-primary: oklch(0.6 0.2 260);
+  --color-primary-foreground: oklch(1 0 0);
+  --color-secondary: oklch(0.95 0 0);
+  --color-secondary-foreground: oklch(0.25 0 0);
+  
+  /* Professional Blue Variants */
+  --color-blue-50: oklch(0.98 0.05 260);
+  --color-blue-100: oklch(0.95 0.1 260);
+  --color-blue-500: oklch(0.6 0.2 260);
+  --color-blue-600: oklch(0.55 0.22 260);
+  --color-blue-700: oklch(0.5 0.24 260);
+  
+  /* Status Colors for Charts and Indicators */
+  --color-chart-1: oklch(0.6 0.2 260);    /* Primary Blue */
+  --color-chart-2: oklch(0.7 0.15 210);   /* Success Green */
+  --color-chart-3: oklch(0.75 0.15 160);  /* Info Cyan */
+  --color-chart-4: oklch(0.8 0.1 90);     /* Warning Yellow */
+  --color-chart-5: oklch(0.65 0.2 40);    /* Danger Orange */
+  
+  /* Enhanced Grays */
+  --color-gray-50: oklch(0.99 0 0);
+  --color-gray-100: oklch(0.97 0 0);
+  --color-gray-200: oklch(0.92 0 0);
+  --color-gray-300: oklch(0.85 0 0);
+  --color-gray-400: oklch(0.7 0 0);
+  --color-gray-500: oklch(0.55 0 0);
+  --color-gray-600: oklch(0.45 0 0);
+  --color-gray-700: oklch(0.35 0 0);
+  --color-gray-800: oklch(0.25 0 0);
+  --color-gray-900: oklch(0.15 0 0);
+
+  /* Background and Surface Colors */
+  --color-background: oklch(0.98 0 0);
+  --color-foreground: oklch(0.15 0 0);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.15 0 0);
+  --color-muted: oklch(0.95 0 0);
+  --color-muted-foreground: oklch(0.45 0 0);
+  --color-accent: oklch(0.97 0.05 260);
+  --color-accent-foreground: oklch(0.25 0 0);
+
+  /* Interactive Elements */
+  --color-border: oklch(0.92 0 0);
+  --color-input: oklch(0.92 0 0);
+  --color-ring: oklch(0.6 0.2 260);
+  --color-destructive: oklch(0.55 0.25 20);
+  --color-destructive-foreground: oklch(1 0 0);
+
+  /* Enhanced Border Radius */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Enhanced Shadows */
+  --shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 0.07), 0 1px 2px -1px oklch(0 0 0 / 0.04);
+  --shadow: 0 2px 4px -1px oklch(0 0 0 / 0.08), 0 1px 3px 0 oklch(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.1), 0 2px 4px -2px oklch(0 0 0 / 0.06);
+  --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -4px oklch(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.1), 0 8px 10px -6px oklch(0 0 0 / 0.1);
+
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: oklch(0.145 0 0);
+    --color-foreground: oklch(0.985 0 0);
+    --color-card: oklch(0.205 0 0);
+    --color-card-foreground: oklch(0.985 0 0);
+    --color-muted: oklch(0.269 0 0);
+    --color-muted-foreground: oklch(0.708 0 0);
+    --color-accent: oklch(0.269 0 0);
+    --color-accent-foreground: oklch(0.985 0 0);
+    --color-border: oklch(1 0 0 / 0.1);
+    --color-input: oklch(1 0 0 / 0.15);
+  }
+}
+
+/* Additional Animations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
 }
