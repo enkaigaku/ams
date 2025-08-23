@@ -61,19 +61,19 @@ const Modal: React.FC<ModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
         <div 
-          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm transition-opacity" 
           onClick={onClose}
         />
         
         <div className={cn(
-          'relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
+          'relative transform overflow-hidden rounded-lg bg-card text-left shadow-xl transition-all sm:my-8 sm:w-full',
           sizeStyles[size]
         )}>
-          <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+          <div className="bg-card px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             {(title || showCloseButton) && (
               <div className="flex items-center justify-between mb-4">
                 {title && (
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">
+                  <h3 className="text-lg font-medium leading-6 text-foreground">
                     {title}
                   </h3>
                 )}

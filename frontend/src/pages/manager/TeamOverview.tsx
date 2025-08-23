@@ -119,8 +119,8 @@ const TeamOverview: React.FC = () => {
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-          <UsersIcon className="h-6 w-6 mr-2" />
+        <h1 className="text-2xl font-bold text-foreground flex items-center">
+          <UsersIcon className="h-6 w-6 mr-2 text-primary" />
           チーム出勤状況
         </h1>
 
@@ -147,13 +147,13 @@ const TeamOverview: React.FC = () => {
             </Button>
           </div>
 
-          <div className="flex items-center bg-gray-100 rounded-lg p-1">
+          <div className="flex items-center bg-muted rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
               className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                 viewMode === 'grid' 
-                  ? 'bg-white text-gray-900 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-card text-foreground shadow-sm' 
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               グリッド
@@ -162,8 +162,8 @@ const TeamOverview: React.FC = () => {
               onClick={() => setViewMode('list')}
               className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                 viewMode === 'list' 
-                  ? 'bg-white text-gray-900 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-card text-foreground shadow-sm' 
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               リスト
@@ -176,37 +176,37 @@ const TeamOverview: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-primary-600">
+            <div className="text-2xl font-bold text-primary">
               {teamMembers.length}
             </div>
-            <div className="text-sm text-gray-600">総メンバー数</div>
+            <div className="text-sm text-muted-foreground">総メンバー数</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-chart-2">
               {attendanceData.filter(r => r.status === 'PRESENT').length}
             </div>
-            <div className="text-sm text-gray-600">出勤者数</div>
+            <div className="text-sm text-muted-foreground">出勤者数</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-yellow-600">
+            <div className="text-2xl font-bold text-chart-4">
               {attendanceData.filter(r => r.status === 'LATE').length}
             </div>
-            <div className="text-sm text-gray-600">遅刻者数</div>
+            <div className="text-sm text-muted-foreground">遅刻者数</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-red-600">
+            <div className="text-2xl font-bold text-destructive">
               {teamMembers.length - attendanceData.length}
             </div>
-            <div className="text-sm text-gray-600">欠勤者数</div>
+            <div className="text-sm text-muted-foreground">欠勤者数</div>
           </CardContent>
         </Card>
       </div>
@@ -222,12 +222,12 @@ const TeamOverview: React.FC = () => {
               <Card key={member.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                      <UserIcon className="h-6 w-6 text-gray-600" />
+                    <div className="w-10 h-10 bg-muted/50 rounded-full flex items-center justify-center">
+                      <UserIcon className="h-6 w-6 text-muted-foreground" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{member.name}</h3>
-                      <p className="text-sm text-gray-600">{member.department}</p>
+                      <h3 className="font-medium text-foreground">{member.name}</h3>
+                      <p className="text-sm text-muted-foreground">{member.department}</p>
                     </div>
                     <Badge variant={status.color} size="sm">
                       {status.text}
@@ -236,8 +236,8 @@ const TeamOverview: React.FC = () => {
 
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-500">出勤時刻:</span>
-                      <span className="font-medium">
+                      <span className="text-muted-foreground">出勤時刻:</span>
+                      <span className="font-medium text-foreground">
                         {attendance?.clockIn 
                           ? format(new Date(attendance.clockIn), 'HH:mm')
                           : '--:--'
@@ -245,8 +245,8 @@ const TeamOverview: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500">退勤時刻:</span>
-                      <span className="font-medium">
+                      <span className="text-muted-foreground">退勤時刻:</span>
+                      <span className="font-medium text-foreground">
                         {attendance?.clockOut 
                           ? format(new Date(attendance.clockOut), 'HH:mm')
                           : '--:--'
@@ -254,8 +254,8 @@ const TeamOverview: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex justify-between border-t pt-2">
-                      <span className="text-gray-500">勤務時間:</span>
-                      <span className="font-bold text-primary-600">{status.hours}</span>
+                      <span className="text-muted-foreground">勤務時間:</span>
+                      <span className="font-bold text-primary">{status.hours}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -268,56 +268,56 @@ const TeamOverview: React.FC = () => {
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b">
+                <thead className="bg-muted/50 border-b border-border">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       従業員
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       出勤時刻
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       退勤時刻
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       勤務時間
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       状態
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-border">
                   {teamMembers.map((member) => {
                     const attendance = getAttendanceForMember(member.id);
                     const status = getStatusDisplay(attendance);
                     
                     return (
-                      <tr key={member.id} className="hover:bg-gray-50">
+                      <tr key={member.id} className="hover:bg-accent">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                              <UserIcon className="h-4 w-4 text-gray-600" />
+                            <div className="w-8 h-8 bg-muted/50 rounded-full flex items-center justify-center mr-3">
+                              <UserIcon className="h-4 w-4 text-muted-foreground" />
                             </div>
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{member.name}</div>
-                              <div className="text-sm text-gray-500">{member.department}</div>
+                              <div className="text-sm font-medium text-foreground">{member.name}</div>
+                              <div className="text-sm text-muted-foreground">{member.department}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {attendance?.clockIn 
                             ? format(new Date(attendance.clockIn), 'HH:mm')
                             : '--:--'
                           }
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {attendance?.clockOut 
                             ? format(new Date(attendance.clockOut), 'HH:mm')
                             : '--:--'
                           }
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary-600">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary">
                           {status.hours}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">

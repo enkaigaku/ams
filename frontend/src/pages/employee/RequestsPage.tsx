@@ -161,21 +161,21 @@ const RequestsPage: React.FC = () => {
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center">
+        <h1 className="text-2xl font-bold text-foreground flex items-center">
           <DocumentTextIcon className="h-6 w-6 mr-2" />
           申請管理
         </h1>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-border">
         <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setActiveTab('leave')}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'leave'
-                ? 'border-primary-500 text-primary-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-primary-500 text-primary'
+                : 'border-transparent text-muted-foreground hover:text-muted-foreground hover:border-border'
             }`}
           >
             休暇申請
@@ -184,8 +184,8 @@ const RequestsPage: React.FC = () => {
             onClick={() => setActiveTab('time')}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'time'
-                ? 'border-primary-500 text-primary-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-primary-500 text-primary'
+                : 'border-transparent text-muted-foreground hover:text-muted-foreground hover:border-border'
             }`}
           >
             打刻修正申請
@@ -206,7 +206,7 @@ const RequestsPage: React.FC = () => {
           <div className="grid gap-4">
             {leaveRequests.length === 0 ? (
               <Card>
-                <CardContent className="text-center py-8 text-gray-500">
+                <CardContent className="text-center py-8 text-muted-foreground">
                   休暇申請はありません
                 </CardContent>
               </Card>
@@ -217,13 +217,13 @@ const RequestsPage: React.FC = () => {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="font-medium text-gray-900">
+                          <h3 className="font-medium text-foreground">
                             {getLeaveTypeLabel(request.type)}
                           </h3>
                           {getStatusBadge(request.status)}
                         </div>
                         
-                        <div className="text-sm text-gray-600 space-y-1">
+                        <div className="text-sm text-muted-foreground space-y-1">
                           <p>期間: {format(parseISO(request.startDate), 'yyyy/MM/dd', { locale: ja })} - {format(parseISO(request.endDate), 'yyyy/MM/dd', { locale: ja })}</p>
                           <p>理由: {request.reason}</p>
                           <p>申請日: {format(parseISO(request.createdAt), 'yyyy/MM/dd HH:mm', { locale: ja })}</p>
@@ -266,7 +266,7 @@ const RequestsPage: React.FC = () => {
           <div className="grid gap-4">
             {timeRequests.length === 0 ? (
               <Card>
-                <CardContent className="text-center py-8 text-gray-500">
+                <CardContent className="text-center py-8 text-muted-foreground">
                   打刻修正申請はありません
                 </CardContent>
               </Card>
@@ -277,13 +277,13 @@ const RequestsPage: React.FC = () => {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="font-medium text-gray-900">
+                          <h3 className="font-medium text-foreground">
                             打刻修正申請
                           </h3>
                           {getStatusBadge(request.status)}
                         </div>
                         
-                        <div className="text-sm text-gray-600 space-y-1">
+                        <div className="text-sm text-muted-foreground space-y-1">
                           <p>対象日: {format(parseISO(request.date), 'yyyy/MM/dd（E）', { locale: ja })}</p>
                           {request.requestedClockIn && (
                             <p>出勤時刻: {request.requestedClockIn}</p>
@@ -325,12 +325,12 @@ const RequestsPage: React.FC = () => {
       >
         <form onSubmit={leaveForm.handleSubmit(onSubmitLeaveRequest)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              休暇種別 <span className="text-red-500">*</span>
+            <label className="block text-sm font-medium text-muted-foreground mb-1">
+              休暇種別 <span className="text-destructive">*</span>
             </label>
             <select
               {...leaveForm.register('type')}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
             >
               <option value="">選択してください</option>
               <option value="paid_leave">有給休暇</option>
@@ -338,7 +338,7 @@ const RequestsPage: React.FC = () => {
               <option value="personal_leave">私用休暇</option>
             </select>
             {leaveForm.formState.errors.type && (
-              <p className="mt-1 text-sm text-red-600">{leaveForm.formState.errors.type.message}</p>
+              <p className="mt-1 text-sm text-destructive">{leaveForm.formState.errors.type.message}</p>
             )}
           </div>
 
@@ -360,17 +360,17 @@ const RequestsPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              理由 <span className="text-red-500">*</span>
+            <label className="block text-sm font-medium text-muted-foreground mb-1">
+              理由 <span className="text-destructive">*</span>
             </label>
             <textarea
               {...leaveForm.register('reason')}
               rows={3}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               placeholder="休暇の理由を入力してください"
             />
             {leaveForm.formState.errors.reason && (
-              <p className="mt-1 text-sm text-red-600">{leaveForm.formState.errors.reason.message}</p>
+              <p className="mt-1 text-sm text-destructive">{leaveForm.formState.errors.reason.message}</p>
             )}
           </div>
 
@@ -425,17 +425,17 @@ const RequestsPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              理由 <span className="text-red-500">*</span>
+            <label className="block text-sm font-medium text-muted-foreground mb-1">
+              理由 <span className="text-destructive">*</span>
             </label>
             <textarea
               {...timeForm.register('reason')}
               rows={3}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               placeholder="修正が必要な理由を入力してください"
             />
             {timeForm.formState.errors.reason && (
-              <p className="mt-1 text-sm text-red-600">{timeForm.formState.errors.reason.message}</p>
+              <p className="mt-1 text-sm text-destructive">{timeForm.formState.errors.reason.message}</p>
             )}
           </div>
 

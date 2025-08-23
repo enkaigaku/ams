@@ -71,6 +71,12 @@
 
 }
 
+/* Base styles for proper text color inheritance */
+body {
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+}
+
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   :root {

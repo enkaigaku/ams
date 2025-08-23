@@ -127,11 +127,11 @@ const ApprovalQueue: React.FC = () => {
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center">
+        <h1 className="text-2xl font-bold text-foreground flex items-center">
           <DocumentTextIcon className="h-6 w-6 mr-2" />
           承認管理
         </h1>
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-muted-foreground">
           承認待ち: {leaveRequests.length + timeRequests.length}件
         </div>
       </div>
@@ -143,8 +143,8 @@ const ApprovalQueue: React.FC = () => {
             onClick={() => setActiveTab('leave')}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'leave'
-                ? 'border-primary-500 text-primary-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-primary-500 text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
             }`}
           >
             休暇申請 ({leaveRequests.length})
@@ -153,8 +153,8 @@ const ApprovalQueue: React.FC = () => {
             onClick={() => setActiveTab('time')}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'time'
-                ? 'border-primary-500 text-primary-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-primary-500 text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
             }`}
           >
             打刻修正申請 ({timeRequests.length})
@@ -167,7 +167,7 @@ const ApprovalQueue: React.FC = () => {
         <div className="space-y-4">
           {leaveRequests.length === 0 ? (
             <Card>
-              <CardContent className="text-center py-8 text-gray-500">
+              <CardContent className="text-center py-8 text-muted-foreground">
                 承認待ちの休暇申請はありません
               </CardContent>
             </Card>
@@ -178,14 +178,14 @@ const ApprovalQueue: React.FC = () => {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                          <UserIcon className="h-6 w-6 text-gray-600" />
+                        <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
+                          <UserIcon className="h-6 w-6 text-muted-foreground" />
                         </div>
                         <div>
-                          <h3 className="font-medium text-gray-900">
+                          <h3 className="font-medium text-foreground">
                             {getMemberName(request.userId)}
                           </h3>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-muted-foreground">
                             {getLeaveTypeLabel(request.type)}
                           </p>
                         </div>
@@ -194,16 +194,16 @@ const ApprovalQueue: React.FC = () => {
 
                       <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                         <div>
-                          <p className="text-gray-500">申請期間</p>
+                          <p className="text-muted-foreground">申請期間</p>
                           <p className="font-medium">
                             {format(parseISO(request.startDate), 'yyyy/MM/dd', { locale: ja })} - {format(parseISO(request.endDate), 'yyyy/MM/dd', { locale: ja })}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-muted-foreground">
                             ({calculateLeaveDays(request.startDate, request.endDate)}日間)
                           </p>
                         </div>
                         <div>
-                          <p className="text-gray-500">申請日時</p>
+                          <p className="text-muted-foreground">申請日時</p>
                           <p className="font-medium">
                             {format(parseISO(request.createdAt), 'yyyy/MM/dd HH:mm', { locale: ja })}
                           </p>
@@ -211,8 +211,8 @@ const ApprovalQueue: React.FC = () => {
                       </div>
 
                       <div className="mb-4">
-                        <p className="text-gray-500 text-sm mb-1">理由</p>
-                        <p className="text-gray-900 text-sm bg-gray-50 p-2 rounded">
+                        <p className="text-muted-foreground text-sm mb-1">理由</p>
+                        <p className="text-foreground text-sm bg-muted/50 p-2 rounded">
                           {request.reason}
                         </p>
                       </div>
@@ -256,7 +256,7 @@ const ApprovalQueue: React.FC = () => {
         <div className="space-y-4">
           {timeRequests.length === 0 ? (
             <Card>
-              <CardContent className="text-center py-8 text-gray-500">
+              <CardContent className="text-center py-8 text-muted-foreground">
                 承認待ちの打刻修正申請はありません
               </CardContent>
             </Card>
@@ -267,27 +267,27 @@ const ApprovalQueue: React.FC = () => {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                          <UserIcon className="h-6 w-6 text-gray-600" />
+                        <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
+                          <UserIcon className="h-6 w-6 text-muted-foreground" />
                         </div>
                         <div>
-                          <h3 className="font-medium text-gray-900">
+                          <h3 className="font-medium text-foreground">
                             {getMemberName(request.userId)}
                           </h3>
-                          <p className="text-sm text-gray-600">打刻修正申請</p>
+                          <p className="text-sm text-muted-foreground">打刻修正申請</p>
                         </div>
                         <Badge variant="warning" size="sm">承認待ち</Badge>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                         <div>
-                          <p className="text-gray-500">対象日</p>
+                          <p className="text-muted-foreground">対象日</p>
                           <p className="font-medium">
                             {format(parseISO(request.date), 'yyyy/MM/dd（E）', { locale: ja })}
                           </p>
                         </div>
                         <div>
-                          <p className="text-gray-500">申請日時</p>
+                          <p className="text-muted-foreground">申請日時</p>
                           <p className="font-medium">
                             {format(parseISO(request.createdAt), 'yyyy/MM/dd HH:mm', { locale: ja })}
                           </p>
@@ -298,16 +298,16 @@ const ApprovalQueue: React.FC = () => {
                         <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                           {request.requestedClockIn && (
                             <div>
-                              <p className="text-gray-500">修正後出勤時刻</p>
-                              <p className="font-medium text-primary-600">
+                              <p className="text-muted-foreground">修正後出勤時刻</p>
+                              <p className="font-medium text-primary">
                                 {request.requestedClockIn}
                               </p>
                             </div>
                           )}
                           {request.requestedClockOut && (
                             <div>
-                              <p className="text-gray-500">修正後退勤時刻</p>
-                              <p className="font-medium text-primary-600">
+                              <p className="text-muted-foreground">修正後退勤時刻</p>
+                              <p className="font-medium text-primary">
                                 {request.requestedClockOut}
                               </p>
                             </div>
@@ -316,8 +316,8 @@ const ApprovalQueue: React.FC = () => {
                       )}
 
                       <div className="mb-4">
-                        <p className="text-gray-500 text-sm mb-1">理由</p>
-                        <p className="text-gray-900 text-sm bg-gray-50 p-2 rounded">
+                        <p className="text-muted-foreground text-sm mb-1">理由</p>
+                        <p className="text-foreground text-sm bg-muted/50 p-2 rounded">
                           {request.reason}
                         </p>
                       </div>
@@ -366,14 +366,14 @@ const ApprovalQueue: React.FC = () => {
         {selectedRequest && (
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                <UserIcon className="h-8 w-8 text-gray-600" />
+              <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
+                <UserIcon className="h-8 w-8 text-muted-foreground" />
               </div>
               <div>
-                <h3 className="font-medium text-gray-900 text-lg">
+                <h3 className="font-medium text-foreground text-lg">
                   {getMemberName(selectedRequest.userId)}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   {'type' in selectedRequest 
                     ? getLeaveTypeLabel(selectedRequest.type)
                     : '打刻修正申請'
@@ -387,50 +387,50 @@ const ApprovalQueue: React.FC = () => {
                 // Leave Request Details
                 <div className="space-y-3">
                   <div>
-                    <label className="text-sm font-medium text-gray-700">申請期間</label>
-                    <p className="text-gray-900">
+                    <label className="text-sm font-medium text-muted-foreground">申請期間</label>
+                    <p className="text-foreground">
                       {format(parseISO(selectedRequest.startDate), 'yyyy年M月d日', { locale: ja })} - {format(parseISO(selectedRequest.endDate), 'yyyy年M月d日', { locale: ja })}
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       ({calculateLeaveDays(selectedRequest.startDate, selectedRequest.endDate)}日間)
                     </p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">理由</label>
-                    <p className="text-gray-900 mt-1">{selectedRequest.reason}</p>
+                    <label className="text-sm font-medium text-muted-foreground">理由</label>
+                    <p className="text-foreground mt-1">{selectedRequest.reason}</p>
                   </div>
                 </div>
               ) : (
                 // Time Modification Request Details
                 <div className="space-y-3">
                   <div>
-                    <label className="text-sm font-medium text-gray-700">対象日</label>
-                    <p className="text-gray-900">
+                    <label className="text-sm font-medium text-muted-foreground">対象日</label>
+                    <p className="text-foreground">
                       {format(parseISO(selectedRequest.date), 'yyyy年M月d日（E）', { locale: ja })}
                     </p>
                   </div>
                   {selectedRequest.requestedClockIn && (
                     <div>
-                      <label className="text-sm font-medium text-gray-700">修正後出勤時刻</label>
-                      <p className="text-gray-900">{selectedRequest.requestedClockIn}</p>
+                      <label className="text-sm font-medium text-muted-foreground">修正後出勤時刻</label>
+                      <p className="text-foreground">{selectedRequest.requestedClockIn}</p>
                     </div>
                   )}
                   {selectedRequest.requestedClockOut && (
                     <div>
-                      <label className="text-sm font-medium text-gray-700">修正後退勤時刻</label>
-                      <p className="text-gray-900">{selectedRequest.requestedClockOut}</p>
+                      <label className="text-sm font-medium text-muted-foreground">修正後退勤時刻</label>
+                      <p className="text-foreground">{selectedRequest.requestedClockOut}</p>
                     </div>
                   )}
                   <div>
-                    <label className="text-sm font-medium text-gray-700">理由</label>
-                    <p className="text-gray-900 mt-1">{selectedRequest.reason}</p>
+                    <label className="text-sm font-medium text-muted-foreground">理由</label>
+                    <p className="text-foreground mt-1">{selectedRequest.reason}</p>
                   </div>
                 </div>
               )}
 
               <div className="mt-4 pt-4 border-t">
-                <label className="text-sm font-medium text-gray-700">申請日時</label>
-                <p className="text-gray-900">
+                <label className="text-sm font-medium text-muted-foreground">申請日時</label>
+                <p className="text-foreground">
                   {format(parseISO(selectedRequest.createdAt), 'yyyy年M月d日 HH:mm', { locale: ja })}
                 </p>
               </div>

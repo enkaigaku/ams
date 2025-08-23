@@ -1,5 +1,6 @@
 package com.ams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,9 +22,11 @@ public class Department extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
+    @JsonIgnore
     private User manager;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<User> employees = new ArrayList<>();
 
     // Default constructor

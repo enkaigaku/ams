@@ -141,10 +141,10 @@ const ClockPage: React.FC = () => {
         {/* Time Display */}
         <Card className="text-center bg-white/80 backdrop-blur-sm">
           <CardContent className="py-8">
-            <div className="text-4xl font-bold text-gray-900 mb-2">
+            <div className="text-4xl font-bold text-foreground mb-2">
               {format(currentTime, 'HH:mm:ss')}
             </div>
-            <div className="text-lg text-gray-600 mb-4">
+            <div className="text-lg text-muted-foreground mb-4">
               {format(currentTime, 'M月d日（E）', { locale: ja })}
             </div>
             {getStatusBadge()}
@@ -166,7 +166,7 @@ const ClockPage: React.FC = () => {
                 <mainAction.icon className="h-8 w-8 mr-3" />
                 {mainAction.text}
               </Button>
-              <p className="text-sm text-gray-500 mt-3">
+              <p className="text-sm text-muted-foreground mt-3">
                 {mainAction.description}
               </p>
             </CardContent>
@@ -177,7 +177,7 @@ const ClockPage: React.FC = () => {
         {location && (
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardContent className="py-4 text-center">
-              <div className="flex items-center justify-center text-sm text-gray-600">
+              <div className="flex items-center justify-center text-sm text-muted-foreground">
                 <MapPinIcon className="h-4 w-4 mr-1" />
                 位置情報取得済み
               </div>
@@ -189,11 +189,11 @@ const ClockPage: React.FC = () => {
         {todayRecord && (
           <Card className="bg-white/80 backdrop-blur-sm">
             <CardContent className="py-4">
-              <h3 className="font-medium text-gray-900 mb-3 text-center">本日の記録</h3>
+              <h3 className="font-medium text-foreground mb-3 text-center">本日の記録</h3>
               <div className="space-y-2 text-sm">
                 {todayRecord.clockIn && (
                   <div className="flex justify-between">
-                    <span className="text-gray-500">出勤</span>
+                    <span className="text-muted-foreground">出勤</span>
                     <span className="font-medium">
                       {format(new Date(todayRecord.clockIn), 'HH:mm')}
                     </span>
@@ -201,7 +201,7 @@ const ClockPage: React.FC = () => {
                 )}
                 {todayRecord.breakStart && (
                   <div className="flex justify-between">
-                    <span className="text-gray-500">休憩開始</span>
+                    <span className="text-muted-foreground">休憩開始</span>
                     <span className="font-medium">
                       {format(new Date(todayRecord.breakStart), 'HH:mm')}
                     </span>
@@ -209,7 +209,7 @@ const ClockPage: React.FC = () => {
                 )}
                 {todayRecord.breakEnd && (
                   <div className="flex justify-between">
-                    <span className="text-gray-500">休憩終了</span>
+                    <span className="text-muted-foreground">休憩終了</span>
                     <span className="font-medium">
                       {format(new Date(todayRecord.breakEnd), 'HH:mm')}
                     </span>
@@ -217,7 +217,7 @@ const ClockPage: React.FC = () => {
                 )}
                 {todayRecord.clockOut && (
                   <div className="flex justify-between">
-                    <span className="text-gray-500">退勤</span>
+                    <span className="text-muted-foreground">退勤</span>
                     <span className="font-medium">
                       {format(new Date(todayRecord.clockOut), 'HH:mm')}
                     </span>

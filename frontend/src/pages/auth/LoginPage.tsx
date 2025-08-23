@@ -65,9 +65,6 @@ const LoginPage: React.FC = () => {
               <UserCheck className="h-8 w-8 text-primary" />
             </div>
             <h1 className="text-3xl font-bold text-foreground">勤怠管理システム</h1>
-            <p className="text-muted-foreground text-sm">
-              サインインしてダッシュボードにアクセス
-            </p>
           </div>
 
           {error && (

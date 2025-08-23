@@ -22,6 +22,7 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const { user, logout, isManager } = useAuthStore();
   const navigate = useNavigate();
 
@@ -56,9 +57,93 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Desktop Sidebar - Collapsible */}
+      <div 
+        className={`
+          hidden lg:flex fixed inset-y-0 left-0 z-30 bg-gray-800 shadow-xl transition-all duration-300 ease-in-out
+          ${sidebarExpanded ? 'w-64' : 'w-16'}
+        `}
+        onMouseEnter={() => setSidebarExpanded(true)}
+        onMouseLeave={() => setSidebarExpanded(false)}
+      >
+        <div className="flex flex-col h-full w-full">
+          {/* Logo */}
+          <div className="flex items-center h-16 px-4 bg-blue-600 text-white">
+            <div className="flex items-center min-w-0">
+              <Bars3Icon className="h-6 w-6 flex-shrink-0" />
+              <h1 className={`text-lg font-semibold ml-3 transition-opacity duration-200 whitespace-nowrap ${sidebarExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                {sidebarExpanded && '打刻管理システム'}
+              </h1>
+            </div>
+          </div>
+
+          {/* User Info */}
+          <div className="p-4 border-b border-gray-700">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <UserIcon className="h-8 w-8 text-gray-400" />
+              </div>
+              {sidebarExpanded && (
+                <div className="ml-3 min-w-0">
+                  <p className="text-sm font-medium text-white truncate">{user?.name}</p>
+                  <p className="text-sm text-gray-400 truncate">{user?.department}</p>
+                  <p className="text-xs text-gray-500">
+                    {isManager() ? '管理者' : '従業員'}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 px-2 py-4 space-y-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 transition-all duration-200 group"
+                title={!sidebarExpanded ? item.name : undefined}
+              >
+                <item.icon className="h-5 w-5 flex-shrink-0" />
+                <span className={`ml-3 transition-opacity duration-200 whitespace-nowrap ${sidebarExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                  {sidebarExpanded && item.name}
+                </span>
+                {/* Tooltip for collapsed state */}
+                {!sidebarExpanded && (
+                  <div className="absolute left-12 px-2 py-1 ml-2 text-sm bg-gray-900 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                    {item.name}
+                  </div>
+                )}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Logout */}
+          <div className="p-2 border-t border-gray-700">
+            <Button
+              variant="ghost"
+              onClick={handleLogout}
+              className="w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700 group relative"
+              title={!sidebarExpanded ? 'ログアウト' : undefined}
+            >
+              <ArrowRightOnRectangleIcon className="h-5 w-5 flex-shrink-0" />
+              <span className={`ml-3 transition-opacity duration-200 whitespace-nowrap ${sidebarExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                {sidebarExpanded && 'ログアウト'}
+              </span>
+              {/* Tooltip for collapsed state */}
+              {!sidebarExpanded && (
+                <div className="absolute left-12 px-2 py-1 ml-2 text-sm bg-gray-900 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                  ログアウト
+                </div>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-30 w-64 bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
+        fixed inset-y-0 left-0 z-30 w-64 bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:hidden
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex flex-col h-full">
@@ -121,7 +206,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className={`
+        flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out
+        ${sidebarExpanded ? 'lg:ml-64' : 'lg:ml-16'}
+      `}>
         {/* Top bar */}
         <header className="bg-gray-800 shadow-sm border-b border-gray-700 lg:hidden">
           <div className="flex items-center justify-between h-16 px-4">

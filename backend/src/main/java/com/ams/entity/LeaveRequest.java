@@ -2,6 +2,7 @@ package com.ams.entity;
 
 import com.ams.entity.enums.LeaveType;
 import com.ams.entity.enums.RequestStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ public class LeaveRequest extends BaseEntity {
     @NotNull(message = "ユーザーは必須です")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @NotNull(message = "休暇種別は必須です")

@@ -20,7 +20,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     <div className={cn('flex justify-center items-center', className)}>
       <svg
         className={cn(
-          'animate-spin text-primary-600',
+          'animate-spin text-primary',
           sizes[size]
         )}
         xmlns="http://www.w3.org/2000/svg"

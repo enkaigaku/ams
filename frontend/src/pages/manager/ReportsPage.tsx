@@ -101,8 +101,8 @@ const ReportsPage: React.FC = () => {
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-          <ChartBarIcon className="h-6 w-6 mr-2" />
+        <h1 className="text-2xl font-bold text-foreground flex items-center">
+          <ChartBarIcon className="h-6 w-6 mr-2 text-primary" />
           レポート・エクスポート
         </h1>
       </div>
@@ -110,16 +110,16 @@ const ReportsPage: React.FC = () => {
       {/* Filters */}
       <Card>
         <CardHeader>
-          <h3 className="text-lg font-medium">フィルター設定</h3>
+          <h3 className="text-lg font-medium text-foreground">フィルター設定</h3>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">年</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">年</label>
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               >
                 {years.map(year => (
                   <option key={year} value={year}>{year}年</option>
@@ -128,11 +128,11 @@ const ReportsPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">月</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">月</label>
               <select
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               >
                 {months.map(month => (
                   <option key={month} value={month}>{month}月</option>
@@ -141,11 +141,11 @@ const ReportsPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">従業員</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">従業員</label>
               <select
                 value={selectedUserId}
                 onChange={(e) => setSelectedUserId(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               >
                 <option value="">全従業員</option>
                 {teamMembers.map(member => (
@@ -156,7 +156,7 @@ const ReportsPage: React.FC = () => {
 
             <div className="flex items-end">
               <Button onClick={loadData} disabled={loading}>
-                {loading ? <LoadingSpinner size="sm" className="mr-2" /> : <ChartBarIcon className="h-4 w-4 mr-2" />}
+                {loading ? <LoadingSpinner size="sm" className="mr-2" /> : <ChartBarIcon className="h-4 w-4 mr-2 text-primary" />}
                 更新
               </Button>
             </div>
@@ -167,7 +167,7 @@ const ReportsPage: React.FC = () => {
       {/* Export Section */}
       <Card>
         <CardHeader>
-          <h3 className="text-lg font-medium">データエクスポート</h3>
+          <h3 className="text-lg font-medium text-foreground">データエクスポート</h3>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
@@ -176,12 +176,14 @@ const ReportsPage: React.FC = () => {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
+              rightIcon={<CalendarIcon className="h-4 w-4 text-primary" />}
             />
             <Input
               label="終了日"
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
+              rightIcon={<CalendarIcon className="h-4 w-4 text-primary" />}
             />
             <Button
               onClick={handleExportCSV}
@@ -189,11 +191,11 @@ const ReportsPage: React.FC = () => {
               disabled={exporting}
               className="h-10"
             >
-              <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
+              <ArrowDownTrayIcon className="h-4 w-4 mr-2 text-primary" />
               CSV出力
             </Button>
           </div>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-muted-foreground mt-2">
             指定した期間の勤怠データをCSV形式でダウンロードします
           </p>
         </CardContent>
@@ -204,40 +206,48 @@ const ReportsPage: React.FC = () => {
         <Card>
           <CardContent className="p-6 text-center">
             <div className="flex items-center justify-center mb-2">
-              <CalendarIcon className="h-8 w-8 text-primary-600" />
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <CalendarIcon className="h-8 w-8 text-blue-600" />
+              </div>
             </div>
-            <div className="text-2xl font-bold text-gray-900">{totalStats.presentDays}</div>
-            <div className="text-sm text-gray-600">総出勤日数</div>
+            <div className="text-2xl font-bold text-foreground">{totalStats.presentDays}</div>
+            <div className="text-sm text-muted-foreground">総出勤日数</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6 text-center">
             <div className="flex items-center justify-center mb-2">
-              <ClockIcon className="h-8 w-8 text-green-600" />
+              <div className="w-12 h-12 bg-chart-2/10 rounded-full flex items-center justify-center">
+                <ClockIcon className="h-8 w-8 text-chart-2" />
+              </div>
             </div>
-            <div className="text-2xl font-bold text-gray-900">{totalStats.totalHours.toFixed(1)}</div>
-            <div className="text-sm text-gray-600">総勤務時間</div>
+            <div className="text-2xl font-bold text-foreground">{totalStats.totalHours.toFixed(1)}</div>
+            <div className="text-sm text-muted-foreground">総勤務時間</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6 text-center">
             <div className="flex items-center justify-center mb-2">
-              <UsersIcon className="h-8 w-8 text-yellow-600" />
+              <div className="w-12 h-12 bg-chart-4/10 rounded-full flex items-center justify-center">
+                <UsersIcon className="h-8 w-8 text-chart-4" />
+              </div>
             </div>
-            <div className="text-2xl font-bold text-gray-900">{totalStats.lateDays}</div>
-            <div className="text-sm text-gray-600">遅刻回数</div>
+            <div className="text-2xl font-bold text-foreground">{totalStats.lateDays}</div>
+            <div className="text-sm text-muted-foreground">遅刻回数</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6 text-center">
             <div className="flex items-center justify-center mb-2">
-              <DocumentChartBarIcon className="h-8 w-8 text-red-600" />
+              <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center">
+                <DocumentChartBarIcon className="h-8 w-8 text-destructive" />
+              </div>
             </div>
-            <div className="text-2xl font-bold text-gray-900">{totalStats.absentDays}</div>
-            <div className="text-sm text-gray-600">欠勤回数</div>
+            <div className="text-2xl font-bold text-foreground">{totalStats.absentDays}</div>
+            <div className="text-sm text-muted-foreground">欠勤回数</div>
           </CardContent>
         </Card>
       </div>
@@ -245,7 +255,7 @@ const ReportsPage: React.FC = () => {
       {/* Monthly Reports Table */}
       <Card>
         <CardHeader>
-          <h3 className="text-lg font-medium">
+          <h3 className="text-lg font-medium text-foreground">
             {selectedYear}年{selectedMonth}月のレポート
             {selectedUserId && ` - ${getMemberName(selectedUserId)}`}
           </h3>
@@ -256,49 +266,49 @@ const ReportsPage: React.FC = () => {
               <LoadingSpinner size="md" />
             </div>
           ) : monthlyReports.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-muted-foreground">
               データがありません
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b">
+                <thead className="bg-muted/50 border-b">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       従業員
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       出勤日数
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       総勤務時間
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       平均勤務時間
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       遅刻回数
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       欠勤回数
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-border">
                   {monthlyReports.map((report) => (
-                    <tr key={report.userId} className="hover:bg-gray-50">
+                    <tr key={report.userId} className="hover:bg-muted/50">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-foreground">
                           {getMemberName(report.userId)}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                         {report.stats?.presentDays || 0}日
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                         {(report.stats?.totalHours || 0).toFixed(1)}時間
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                         {(report.stats?.averageHours || 0).toFixed(1)}時間
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -329,9 +339,9 @@ const ReportsPage: React.FC = () => {
       {/* Export Instructions */}
       <Card>
         <CardHeader>
-          <h3 className="text-lg font-medium">エクスポート機能について</h3>
+          <h3 className="text-lg font-medium text-foreground">エクスポート機能について</h3>
         </CardHeader>
-        <CardContent className="text-sm text-gray-600 space-y-2">
+        <CardContent className="text-sm text-muted-foreground space-y-2">
           <p>• CSV形式で勤怠データをエクスポートできます</p>
           <p>• 期間を指定して必要なデータのみを出力可能です</p>
           <p>• エクスポートされるデータには以下が含まれます：</p>
